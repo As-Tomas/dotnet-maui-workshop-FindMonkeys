@@ -32,14 +32,14 @@
                         <Label Text="{Binding Name}" FontSize="24"/>
                         <Label Text="{Binding Location}" FontSize="12"/>
                     </VerticalStackLayout>
-                    
+
                 </HorizontalStackLayout>
             </DataTemplate>
         </CollectionView.ItemTemplate>
     </CollectionView>
-    
-   
-    
-    
+
+
+
+
 </ContentPage>
     
