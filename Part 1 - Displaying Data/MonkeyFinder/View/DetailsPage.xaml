@@ -4,6 +4,7 @@
              x:Class="MonkeyFinder.DetailsPage"
              xmlns:viewmodel="clr-namespace:MonkeyFinder.ViewModel"
              x:DataType="viewmodel:MonkeyDetailsViewModel"
+             Shell.PresentationMode="ModalAnimated"
              Title="{Binding Monkey.Name}">
 
     <ScrollView>
