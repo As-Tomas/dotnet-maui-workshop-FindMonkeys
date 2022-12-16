@@ -23,7 +23,11 @@ public static class MauiProgram
 		// AddSingleton create it once and keep it around and return when its called
 		builder.Services.AddSingleton<MonkeyService>();
 
+		builder.Services.AddTransient<MonkeyDetailsViewModel>();
+
         builder.Services.AddSingleton<MainPage>();
+
+		builder.Services.AddTransient<DetailsPage>();
 		
 		builder.Services.AddSingleton<MonkeysViewModel>();
 
