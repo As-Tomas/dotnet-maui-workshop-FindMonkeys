@@ -10,4 +10,10 @@ public partial class MonkeyDetailsViewModel : BaseViewModel
 
     [ObservableProperty]
     Monkey monkey;
+
+    [RelayCommand]
+    async Task GetTaskAsync()
+    {
+        await Shell.Current.GoToAsync("..");
+    }
 }
