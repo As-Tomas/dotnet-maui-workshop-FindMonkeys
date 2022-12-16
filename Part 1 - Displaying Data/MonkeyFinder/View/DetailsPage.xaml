@@ -26,10 +26,10 @@
                        Padding="0"
                        Margin="0,80,0,0">
 
-                    <Image Aspect="AspectFill"
+                    <Image Aspect="AspectFill"                         
                            HeightRequest="160"
-                       WidthRequest="160"
-                       HorizontalOptions="Center"
+                           WidthRequest="160"
+                           HorizontalOptions="Center"
                            VerticalOptions="Center"
                            Source="{Binding Monkey.Image}"/>
 
