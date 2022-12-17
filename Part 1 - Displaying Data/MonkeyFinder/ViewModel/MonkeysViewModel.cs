@@ -15,8 +15,9 @@ public partial class MonkeysViewModel : BaseViewModel
         this.connectivity = connectivity;
         this.geolocation = geolocation; 
     }
+
     [RelayCommand]
-    async Task GetClosestMonkeyAsync()
+    async Task GetClosestMonkey()
     {
         if (IsBusy || Monkeys.Count == 0)
         {
@@ -25,34 +26,30 @@ public partial class MonkeysViewModel : BaseViewModel
 
         try
         {
+            // Get cached location, else get real location.
             var location = await geolocation.GetLastKnownLocationAsync();
-            if (location is null)
+            if (location == null)
             {
-                location = await geolocation.GetLocationAsync(
-                    new GeolocationRequest
-                    {
-                        DesiredAccuracy = GeolocationAccuracy.Medium,
-                        Timeout = TimeSpan.FromSeconds(30),
-                    });
+                location = await geolocation.GetLocationAsync(new GeolocationRequest
+                {
+                    DesiredAccuracy = GeolocationAccuracy.Medium,
+                    Timeout = TimeSpan.FromSeconds(30)
+                });
             }
-            if (location is null)
-                return;
 
-            var first = Monkeys.OrderBy(m =>
-                location.CalculateDistance(m.Latitude, m.Longitude, DistanceUnits.Kilometers)
-                ).FirstOrDefault();
+            // Find closest monkey to us
+            var first = Monkeys.OrderBy(m => location.CalculateDistance(
+                new Location(m.Latitude, m.Longitude), DistanceUnits.Miles))
+                .FirstOrDefault();
 
-            if (first is null)
-                return;
+            await Shell.Current.DisplayAlert("", first.Name + " " +
+                first.Location, "OK");
 
-            await Shell.Current.DisplayAlert("Closest Monkey",
-                $"{first.Name} in {first.Location}", "OK");
         }
         catch (Exception ex)
         {
-            Debug.WriteLine(ex);
-            await Shell.Current.DisplayAlert("Error!",
-                $"Unable to get closest monkeys: {ex.Message}", "OK");
+            Debug.WriteLine($"Unable to query location: {ex.Message}");
+            await Shell.Current.DisplayAlert("Error!", ex.Message, "OK");
         }
     }
 
