@@ -9,15 +9,25 @@
              ios:Page.UseSafeArea="True"
              x:Class="MonkeyFinder.View.MainPage">
 
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="REFRESH"/>
+    </ContentPage.ToolbarItems>
+
     <Grid ColumnDefinitions="*,*"
           ColumnSpacing="5"
           RowDefinitions="*,Auto"
           RowSpacing='0'>
 
-        <CollectionView BackgroundColor='Pink'
-                        Grid.ColumnSpan="2"
+        <RefreshView Grid.ColumnSpan="2"
+                     Command="{Binding GetMonkeysCommand}"
+                     IsRefreshing="{Binding IsRefreshing}">
+            <CollectionView BackgroundColor='Pink'
                         ItemsSource="{Binding Monkeys}"
                         SelectedItem="None">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical"
+                                     Span="{OnIdiom Desktop=2, Default=3}"/>
+                </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="model:Monkey">
                     <Grid Padding="10">
@@ -54,7 +64,8 @@
             
             
         </CollectionView>
-
+        </RefreshView>
+        
         <Button Text="Get Monkeys"
                 Style="{StaticResource ButtonOutline}"
                 Command="{Binding GetMonkeysCommand}"
